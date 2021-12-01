@@ -1,7 +1,27 @@
 import './charList.scss'
 import abyss from '../../resources/img/abyss.jpg'
+import MarvelService from "../../services/MarvelService";
 
 const CharList = () => {
+
+    const marvelService = new MarvelService();
+
+    const chars = data.map(item => {
+        const {name, thumbnail} = item;
+        return (
+            <li className="char__item">
+                <img src={thumbnail} alt={name} />
+                <div className="char__name">{name}</div>
+            </li>
+        )
+    })
+
+    const updateChar = () => {
+        this.marvelService
+            .getAllCharacters()
+            .then(this.onCharLoaded)
+    }
+
     return (
         <div className="char__list">
             <ul className="char__grid">
