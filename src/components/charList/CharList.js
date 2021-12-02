@@ -1,37 +1,53 @@
 import { Component} from "react";
 
 import './charList.scss'
-import abyss from '../../resources/img/abyss.jpg'
 import MarvelService from "../../services/MarvelService";
+import ErrorMessage from "../errorMessage/ErrorMessage";
+import Spinner from "../spinner/Spinner";
 
 export default class CharList extends Component {
     state = {
-        charList: []
+        charList: [],
+        loading: true,
+        error: false
     }
 
     marvelService = new MarvelService();
 
-    updateChar() {
+    componentDidMount() {
         this.marvelService
-            .getCharacter()
+            .getAllCharacters()
             .then(this.onCharListLoaded)
-        console.log(1)
+            .catch(this.onError)
     }
 
     onCharListLoaded = (charList) => {
         this.setState({
-            charList
+            charList,
+            loading: false
         })
-        console.log(this.state)
+    }
+
+    onError = () => {
+        this.setState({
+            error: true,
+            loading: false
+        })
     }
 
     renderItems(arr) {
         const charList = arr.map((item) => {
-            const {name, thumbnail} = item;
+            let imgStyle = {'objectFit': 'cover'};
+            if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+                imgStyle = {'objectFit': 'unset'};
+            }
             return (
-                <li className="char__item">
-                    <img src={thumbnail} alt={name} />
-                    <div className="char__name">{name}</div>
+                <li
+                    className="char__item"
+                    key={item.id}
+                    onClick={() => this.props.onCharSelected(item.id)}>
+                        <img src={item.thumbnail} alt={item.name} style={imgStyle} />
+                        <div className="char__name">{item.name}</div>
                 </li>
             )
         });
@@ -43,11 +59,19 @@ export default class CharList extends Component {
     }
 
     render() {
-        const {charList} = this.state;
+        const {charList, loading, error} = this.state;
+
         const items = this.renderItems(charList);
+
+        const errorMessage = error ? <ErrorMessage /> : null;
+        const spinner = loading ? <Spinner /> : null;
+        const content = !(loading || error) ? items : null;
+
         return (
             <div className="char__list">
-                {items}
+                {errorMessage}
+                {spinner}
+                {content}
                 <button className="button button__main button__long">
                     <div className="inner">load more</div>
                 </button>
