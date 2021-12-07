@@ -25,7 +25,8 @@ export default class RandomChar extends Component {
         console.log('update')
         this.setState({
             char,
-            loading: false
+            loading: false,
+            error: false
         })
     }
 

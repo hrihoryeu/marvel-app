@@ -35,6 +35,8 @@ export default class CharInfo extends Component {
             .getCharacter(charId)
             .then(this.onCharLoaded)
             .catch(this.onError);
+
+        this.foo.bar = 0;
     }
 
     onCharLoaded = (char) => {
@@ -112,8 +114,7 @@ const View = ({char}) => {
             <ul className="char__comics-list">
                 {comics.length > 0 ? null : 'There are no comics...'}
                 {
-                    comics.map((item, i) => {
-                        if (i > 9) return;
+                    comics.slice(0, 10).map((item, i) => {
                         return (
                             <li key={i} className="char__comics-item">
                                 {item.name}
