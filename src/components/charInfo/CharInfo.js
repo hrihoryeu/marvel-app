@@ -1,5 +1,8 @@
 import './charInfo.scss'
+
 import { Component } from "react";
+import { PropTypes } from 'prop-types';
+
 import MarvelService from "../../services/MarvelService";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
@@ -35,12 +38,9 @@ export default class CharInfo extends Component {
             .getCharacter(charId)
             .then(this.onCharLoaded)
             .catch(this.onError);
-
-        this.foo.bar = 0;
     }
 
     onCharLoaded = (char) => {
-        console.log('update')
         this.setState({
             char,
             loading: false
@@ -48,7 +48,6 @@ export default class CharInfo extends Component {
     }
 
     onCharLoading = () => {
-        console.log('update')
         this.setState({
             loading: true
         })
@@ -125,4 +124,8 @@ const View = ({char}) => {
             </ul>
         </>
     )
+}
+
+CharInfo.propTypes = {
+    charId: PropTypes.number
 }
