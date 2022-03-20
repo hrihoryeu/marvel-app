@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Link, matchPath } from "react-router-dom";
 import useMarvelService from "../../services/MarvelService";
 import './ComicsList.scss'
 
@@ -37,19 +38,21 @@ const ComicsList = () => {
   return (
     <>
       <div className="comics-container">
-        {comList.map((item) => {
+        {comList.map((item, i) => {
           return (
-            <div className="comics-item" key={item.id}>
-              <div>
-                <img className="comics-img" src={item.thumbnail} alt="" />
+            <Link to={`/comics/${item.id}`}>
+              <div className="comics-item" key={i} >
+                <div>
+                  <img className="comics-img" src={item.thumbnail} alt="" />
+                </div>
+                <p>
+                  {item.title}
+                </p>
+                <p>
+                  {item.price}
+                </p>
               </div>
-              <p>
-                {item.title}
-              </p>
-              <p>
-                {item.price}
-              </p>
-            </div>
+            </Link>
           )
         })}
       </div>
