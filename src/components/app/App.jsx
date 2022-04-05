@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import AppHeader from "../appHeader/AppHeader";
+import Spinner from "../spinner/Spinner";
 
 const MainPage = lazy(() => import("../pages/MainPage"))
 const ComicsPage = lazy(() => import("../pages/ComicsPage"))
@@ -13,7 +14,7 @@ const App = () => {
             <div className='app'>
                 <AppHeader />
                 <main>
-                    <Suspense fallback={<span>loading...</span>}>
+                    <Suspense fallback={<Spinner />}>
                         <Routes>
                             <Route path='/' element={<MainPage />} />
                             <Route path='/comics' element={<ComicsPage />} />
