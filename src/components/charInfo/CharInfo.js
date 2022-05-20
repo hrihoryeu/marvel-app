@@ -2,6 +2,7 @@ import './charInfo.scss'
 
 import { useState, useEffect } from "react";
 import { PropTypes } from 'prop-types';
+import { NavLink, Link } from 'react-router-dom';
 
 import useMarvelService from "../../services/MarvelService";
 import Spinner from "../spinner/Spinner";
@@ -28,7 +29,7 @@ const CharInfo = (props) => {
         clearError()
         getCharacter(charId)
             .then(onCharLoaded)
-    } 
+    }
 
     const onCharLoaded = (char) => {
         setChar(char)
@@ -84,9 +85,13 @@ const View = ({char}) => {
                 {comics.length > 0 ? null : 'There are no comics...'}
                 {
                     comics.slice(0, 10).map((item, i) => {
+                        const comicURL = `/comics/${item.resourceURI.split('/')[item.resourceURI.split('/').length -1]}`
                         return (
                             <li key={i} className="char__comics-item">
-                                {item.name}
+                                <NavLink
+                                    to={comicURL}>
+                                    {item.name}
+                                </NavLink>
                             </li>
                         )
                     })

@@ -1,6 +1,6 @@
 import useMarvelService from "../../services/MarvelService";
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import AppBanner from "../appBanner/AppBanner";
 import Spinner from "../spinner/Spinner";
@@ -9,32 +9,31 @@ import Skeleton from "../skeleton/Skeleton";
 
 import "./SingleComicPage.scss"
 
-const SingleComicPage = () => {
-  const { comicId } = useParams()
+const SingleCharPage = () => {
+  const { charId } = useParams()
 
-  const [comic, setComic] = useState()
-  const { loading, error, getComic, clearError } = useMarvelService()
+  const [char, setChar] = useState()
+  const { loading, error, getCharacter, clearError } = useMarvelService()
 
   useEffect(() => {
-    console.log('useeffect')
     onRequest()
-  }, [comicId])
+  }, [charId])
 
   const onRequest = () => {
     clearError()
-    getComic(comicId)
-      .then(onComicLoaded)
+    getCharacter(charId)
+      .then(onCharLoaded)
   }
 
-  const onComicLoaded = (comic) => {
-    setComic(comic)
+  const onCharLoaded = (char) => {
+    setChar(char)
   }
 
-  const skeleton = comic || loading || error ? null : <Skeleton />;
+  const skeleton = char || loading || error ? null : <Skeleton />;
   const spinner = loading ? <Spinner /> : null;
   const errorMessage = error ? <ErrorMessage /> : null;
 
-  const content = !(loading || error || !comic) ? <View comic={comic} /> : skeleton
+  const content = !(loading || error || !char) ? <View char={char} /> : skeleton
 
   return (
     <>
@@ -45,9 +44,9 @@ const SingleComicPage = () => {
   )
 }
 
-const View = (({ comic }) => {
+const View = (({ char }) => {
 
-  const { title, thumbnail, price, description } = comic
+  const { name, thumbnail, description } = char
 
   return (
     <>
@@ -57,16 +56,12 @@ const View = (({ comic }) => {
           <img className="single-comic__img" src={thumbnail} alt="" />
         </div>
         <div className="single-comic__info">
-          <Link to="/comics" className="single-comic__link">
-            Back to comics
-          </Link>
-          <p>{title}</p>
+          <h3>{name}</h3>
           <p>{description}</p>
-          <p>${price}</p>
         </div>
       </div>
     </>
   )
 })
 
-export default SingleComicPage
+export default SingleCharPage
