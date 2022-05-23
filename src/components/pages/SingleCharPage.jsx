@@ -17,6 +17,7 @@ const SingleCharPage = () => {
 
   useEffect(() => {
     onRequest()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [charId])
 
   const onRequest = () => {

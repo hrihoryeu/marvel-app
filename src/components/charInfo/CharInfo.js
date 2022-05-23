@@ -2,7 +2,7 @@ import './charInfo.scss'
 
 import { useState, useEffect } from "react";
 import { PropTypes } from 'prop-types';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import useMarvelService from "../../services/MarvelService";
 import Spinner from "../spinner/Spinner";
